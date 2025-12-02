@@ -117,7 +117,7 @@ class Activation_Softmax_Loss_CategoricalCrossentropy:
 
 # Load sample dataset
 sample_size = 1000
-classes_size = 8
+classes_size = 5
 X, y = spiral_data(samples=sample_size, classes=classes_size)
 
 # Create a grid of points to evaluate

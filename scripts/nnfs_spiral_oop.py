@@ -402,7 +402,7 @@ def train_test_split(X, y, test_size=0.2, random_state=None):
 
 # Load sample dataset
 sample_size = 1000
-classes_size = 10
+classes_size = 5
 X, y = spiral_data(samples=sample_size, classes=classes_size)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
