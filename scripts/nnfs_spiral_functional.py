@@ -348,7 +348,7 @@ plt.xlabel("Feature 1")
 plt.ylabel("Feature 2")
 plt.show()
 
-# Animate the change in decision boundary over epochs
+# Animate the change in decision boundary over epochs (single animation, all frames)
 fig1, ax1 = plt.subplots()
 
 def update_with_scatter(i):
@@ -362,29 +362,9 @@ def update_with_scatter(i):
 anim = FuncAnimation(fig1, update_with_scatter, frames=len(prediction_frames), interval=200)
 plt.show()
 
-# Save the animation as a .mp4
-writer = FFMpegWriter(fps=5)
-filename = "decision_boundary_with_scatter.mp4"
-print("Saving animation...")
-anim.save(filename, writer=writer)
-print(f"Animation saved to: {filename}")
-
-# Animate the change in decision boundary over epochs without the scatter
-fig2, ax2 = plt.subplots()
-
-def update_without_scatter(i):
-    ax2.clear()
-    ax2.contourf(xx, yy, prediction_frames[i], cmap=plt.cm.Spectral, alpha=0.6)
-    ax2.set_title(f"Epoch {epoch_checkpoints[i]}\nAcc: {accuracies[i]:.2%} | Loss: {losses[i]:.4f}")
-    ax2.set_xlabel("Feature 1")
-    ax2.set_ylabel("Feature 2")
-
-anim = FuncAnimation(fig2, update_without_scatter, frames=len(prediction_frames), interval=200)
-plt.show()
-
-# Save the animation as a .mp4
-writer = FFMpegWriter(fps=60)
-filename = "decision_boundary_without_scatter.mp4"
+# Save the animation as a .mp4 (all frames captured)
+writer = FFMpegWriter(fps=10)
+filename = "decision_boundary.mp4"
 print("Saving animation...")
 anim.save(filename, writer=writer)
 print(f"Animation saved to: {filename}")
