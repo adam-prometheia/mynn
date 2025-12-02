@@ -315,12 +315,20 @@ class Neural_Network:
             else:
                 tracked_loss, tracked_accuracy = self.evaluate(X, y)
 
-            if epoch % 100 == 0:
-                print(f"Epoch {epoch}/{epochs}: loss={tracked_loss:.4f}, accuracy={tracked_accuracy:.4f}")
+            # Exponential moving average to smooth noisy metrics
+            smoothed_loss = tracked_loss if not self.loss_history else 0.9 * self.loss_history[-1] + 0.1 * tracked_loss
+            smoothed_acc = tracked_accuracy if not self.accuracy_history else 0.9 * self.accuracy_history[-1] + 0.1 * tracked_accuracy
 
-                # Append metrics to history
-                self.loss_history.append(tracked_loss)
-                self.accuracy_history.append(tracked_accuracy)
+            if epoch % 100 == 0:
+                print(
+                    f"Epoch {epoch}/{epochs}: "
+                    f"loss={tracked_loss:.4f} (ema {smoothed_loss:.4f}), "
+                    f"accuracy={tracked_accuracy:.4f} (ema {smoothed_acc:.4f})"
+                )
+
+            # Append smoothed metrics each epoch
+            self.loss_history.append(smoothed_loss)
+            self.accuracy_history.append(smoothed_acc)
 
             # Early stopping check
             if tracked_loss < best_loss - min_loss_delta:
@@ -421,17 +429,17 @@ model = Neural_Network(
         Layer_Dense(96, classes_size)
     ],
     loss_function=Activation_Softmax_Loss_CategoricalCrossentropy(),
-    optimiser=Optimiser_Adam(learning_rate=0.0005)
+    optimiser=Optimiser_Adam(learning_rate=0.002)
 )
 
 # Train network
 model.train(
     X_train,
     y_train,
-    epochs=10000,
-    batch_size=1000,
-    patience=300,
-    min_loss_delta=1e-4,
+    epochs=4000,
+    batch_size=256,
+    patience=600,
+    min_loss_delta=5e-5,
     use_batch_metrics=False
     )
 
