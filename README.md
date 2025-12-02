@@ -12,7 +12,6 @@ A lightweight, fully vectorised neural-network playground built purely on NumPy.
 ## Repository Layout
 ```
 README.md            Project overview (this file)
-AGENTS.md            Contributor/agent guidelines
 mynn/                Source package (layers, activations, losses, optimiser, trainer)
 scripts/             Reproducible experiments and demos
 tests/               Pytest suite with gradient and behaviour checks
@@ -30,6 +29,7 @@ python scripts/spiral_demo.py            # 2-class spiral classification demo
 # Extras: nnfs multi-class spiral demos (functional vs OOP style)
 # python scripts/nnfs_spiral_functional.py
 # python scripts/nnfs_spiral_oop.py
+```
 
 Animation preview (functional demo output):
 
@@ -38,7 +38,6 @@ Your browser does not support the video tag. Download and open `decision_boundar
 </video>
 
 Animation note: `python scripts/nnfs_spiral_functional.py` regenerates `decision_boundary_no_scatter.mp4`, showing the decision boundary over training epochs.
-```
 
 To run checks before a commit:
 ```bash
@@ -51,7 +50,6 @@ pytest -q
 The codebase is pre-1.0 and optimised for learning and experimentation. Planned improvements include additional optimisers, convolutional layers, richer logging hooks, and benchmark notebooks.
 
 ## Releasing
-1. Update `CHANGELOG.md` under `[Unreleased]` with the changes being shipped.
-2. Bump the version in `pyproject.toml` following Semantic Versioning.
-3. Run the lint + test suite (`ruff`, `black`, `pytest`) and ensure CI is green.
-4. Tag the release (`git tag vX.Y.Z && git push --tags`) and attach any artefacts (plots, notebooks) to the GitHub release notes.
+1. Bump the version in `pyproject.toml` following Semantic Versioning.
+2. Run the lint + test suite (`ruff`, `black`, `pytest`) and ensure CI is green.
+3. Tag the release (`git tag vX.Y.Z && git push --tags`) and attach any artefacts (plots, notebooks, demo MP4s) to the GitHub release notes.
