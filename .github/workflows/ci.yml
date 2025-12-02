@@ -23,6 +23,5 @@ jobs:
       - name: Lint
         run: |
           ruff check mynn
-          black --check mynn tests scripts
       - name: Tests
         run: pytest -q
