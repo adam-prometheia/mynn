@@ -26,7 +26,10 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
 python -m pip install -e .
-python scripts/xor_demo.py
+python scripts/spiral_demo.py            # 2-class spiral classification demo
+# Extras: nnfs multi-class spiral demos (functional vs OOP style)
+# python scripts/nnfs_spiral_functional.py
+# python scripts/nnfs_spiral_oop.py
 ```
 
 To run checks before a commit:
