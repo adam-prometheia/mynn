@@ -30,6 +30,14 @@ python scripts/spiral_demo.py            # 2-class spiral classification demo
 # Extras: nnfs multi-class spiral demos (functional vs OOP style)
 # python scripts/nnfs_spiral_functional.py
 # python scripts/nnfs_spiral_oop.py
+
+Animation preview (functional demo output):
+
+<video src="decision_boundary_no_scatter.mp4" controls width="640">
+Your browser does not support the video tag. Download and open `decision_boundary_no_scatter.mp4`.
+</video>
+
+Animation note: `python scripts/nnfs_spiral_functional.py` regenerates `decision_boundary_no_scatter.mp4`, showing the decision boundary over training epochs.
 ```
 
 To run checks before a commit:
