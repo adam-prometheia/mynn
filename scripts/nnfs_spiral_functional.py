@@ -197,6 +197,10 @@ best_accuracy = 0
 best_weights = None
 best_biases = None
 
+smoothed_loss = None
+smoothed_acc = None
+ema_beta = 0.9  # smoothing factor
+
 for epoch in range(epochs):
 
     # Shuffle the data for mini-batches
@@ -206,6 +210,8 @@ for epoch in range(epochs):
 
     # Create mini-batches
     mini_batches = create_mini_batches(X_shuffled, y_shuffled, batch_size)
+    batch_losses = []
+    batch_accs = []
     
     # Loop through mini-batches
     for X_batch, y_batch in mini_batches:
@@ -222,6 +228,9 @@ for epoch in range(epochs):
         if len(y_batch.shape) == 2:
             y_batch = np.argmax(y_batch, axis=1)
         accuracy = np.mean(predictions == y_batch)
+
+        batch_losses.append(loss)
+        batch_accs.append(accuracy)
 
         # Backward pass for the mini-batch
         loss_activation.backward(loss_activation.output, y_batch)
@@ -242,18 +251,23 @@ for epoch in range(epochs):
         dense3.weights -= learning_rate * dense3.dweights
         dense3.biases  -= learning_rate * dense3.dbiases
 
+    epoch_loss = float(np.mean(batch_losses))
+    epoch_acc = float(np.mean(batch_accs))
+    smoothed_loss = epoch_loss if smoothed_loss is None else ema_beta * smoothed_loss + (1 - ema_beta) * epoch_loss
+    smoothed_acc = epoch_acc if smoothed_acc is None else ema_beta * smoothed_acc + (1 - ema_beta) * epoch_acc
+
     # Calculate and store loss and accuracy for plotting
     if epoch % 10 == 0 or epoch == epochs - 1:
-        print(f"Epoch {epoch}: loss={loss:.4f}, accuracy={accuracy:.4f}")
+        print(f"Epoch {epoch}: loss={epoch_loss:.4f} (ema {smoothed_loss:.4f}), accuracy={epoch_acc:.4f} (ema {smoothed_acc:.4f})")
         prediction_frames.append(predict_grid())
         epoch_checkpoints.append(epoch)
-        losses.append(loss)
-        accuracies.append(accuracy)
+        losses.append(epoch_loss)
+        accuracies.append(epoch_acc)
 
     # Save best weights and biases based on lowest loss (or highest accuracy)
-    if loss < best_loss - min_loss_delta:
-        best_loss = loss
-        best_accuracy = accuracy
+    if epoch_loss < best_loss - min_loss_delta:
+        best_loss = epoch_loss
+        best_accuracy = epoch_acc
         best_epoch = epoch
 
         best_weights = {
