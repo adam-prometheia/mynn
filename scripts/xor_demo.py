@@ -8,6 +8,7 @@ from mynn.train_test_split import train_test_split
 
 
 def build_model():
+    """Define a slightly deeper MLP for noisy XOR classification."""
     layers = [
         Layer_Dense(2, 16),
         Activation_ReLU(),
@@ -20,6 +21,11 @@ def build_model():
 
 def main():
     np.random.seed(42)
+    print(
+        "Demo: classify a noisy XOR dataset (400 samples). "
+        "Each sample is two binary inputs with Gaussian noise; label = 1 when bits differ."
+    )
+
     # Noisy XOR: sample 2-bit inputs, add Gaussian noise, labels via xor
     n_samples = 400
     bits = np.random.randint(0, 2, size=(n_samples, 2))
