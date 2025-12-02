@@ -1,8 +1,10 @@
-import numpy as np
 import copy
+
 import matplotlib.pyplot as plt
-from .optimisers import Optimiser_Adam
+import numpy as np
+
 from .losses import Activation_Softmax_Loss_CategoricalCrossentropy
+from .optimisers import Optimiser_Adam
 
 # Class to tie layers together
 class Neural_Network:
